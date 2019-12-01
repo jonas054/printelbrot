@@ -77,7 +77,6 @@ void* executor(void* ptr) {
 
 // Do the calulations for the entire picture in threads. Then print the result.
 void draw(double size, double x_offset, double y_offset, int max) {
-  //  printf("\e[1J"); /* clear screen */
   pthread_t threads[NR_OF_THREADS];
   for (long t = 0; t < NR_OF_THREADS; ++t) {
     if (pthread_create(&threads[t], NULL, executor, (void*) t)) {
