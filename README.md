@@ -12,6 +12,7 @@ the fractal, and then redraws the screen after receiving commands.
 ## Commands
 
 |Letter|Function|
+|------|--------|
 |U|Move up|
 |D|Move down|
 |L|Move left|
