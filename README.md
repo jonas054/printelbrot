@@ -15,9 +15,9 @@ the fractal, and then redraws the screen after receiving commands.
 
 ### Example
 
-    `X`, `Y`, and `S` (x offset, y offset, and size) take floating point
-    numbers with decimal point and optionally an exponent part. `M` (max
-    iterations) takes an integer argument.
+`X`, `Y`, and `S` (x offset, y offset, and size) take floating point numbers
+with decimal point and optionally an exponent part. `M` (max iterations) takes
+an integer argument.
 
     $ ./mandelbrot.c X:-1.189 Y:0.3 S:2.750000e-01 M:200
 
