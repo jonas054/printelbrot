@@ -34,7 +34,7 @@ const char* COLORS[] = {
 const int NR_OF_COLORS = sizeof(COLORS) / sizeof(COLORS[0]);
 const int NR_OF_THREADS = 7;
 
-// The central algorithm. Calculate zₙ+₁ = zₙ + c until zₙ starts to grow
+// The central algorithm. Calculate zₙ+₁ = zₙ² + c until zₙ starts to grow
 // exponentially, which is when |zₙ| >= 2. Return the number of iterations
 // until we reach that point, or max if we break early.
 long iterations(double x, double y, int max) {
