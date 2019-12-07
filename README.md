@@ -9,6 +9,18 @@ terminal window. It prints the familiar view of a Mandelbrot set, and then
 enters a loop where it prompts for commands to change parameters for viewing
 the fractal, and then redraws the screen after receiving commands.
 
+## Usage
+
+    $ ./mandelbrot.c [starting-point-parameters]
+
+### Example
+
+    `X`, `Y`, and `S` (x offset, y offset, and size) take floating point
+    numbers with decimal point and optionally an exponent part. `M` (max
+    iterations) takes an integer argument.
+
+    $ ./mandelbrot.c X:-1.189 Y:0.3 S:2.750000e-01 M:200
+
 ## Commands
 
 |Letter|Function|
@@ -26,7 +38,7 @@ Note that case is not important, and that multiple commands can be entered at a
 time. For example
 
 ```
-(U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ilo
+X:-1.189000e+00 Y:3.000000e-01 S:4.296875e-03 M:200 (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ilo
 ```
 
 Changing the resolution depends on which terminal program is used, but it will

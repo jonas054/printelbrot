@@ -1,5 +1,5 @@
 #if 0
-gcc -pthread -O2 -o mandelbrot mandelbrot.c && ./mandelbrot
+gcc -pthread -O2 -o mandelbrot mandelbrot.c && ./mandelbrot "$@"
 exit
 #endif
 
@@ -116,13 +116,24 @@ void set_window_size() {
     result[row] = malloc(window_width * sizeof(int));
 }
 
-int main() {
+int main(int argc, char** argv) {
+  for (int ix = 1; ix < argc; ++ix) {
+    const char* arg = argv[ix];
+    switch (arg[0]) {
+    case 'X': sscanf(arg, "X:%le", &x_offset); break;
+    case 'Y': sscanf(arg, "Y:%le", &y_offset); break;
+    case 'S': sscanf(arg, "S:%le", &size);     break;
+    case 'M': sscanf(arg, "M:%d", &max);       break;
+    }
+  }
+
   while (1) {
     set_window_size();
     draw(size, x_offset, y_offset, max);
     char line[1024];
 
-    printf("(U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ");
+    printf("X:%e Y:%e S:%e M:%d (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
+           x_offset, y_offset, size, max);
     if (fgets(line, sizeof(line), stdin)) {
       for (const char* ptr = &line[0]; *ptr; ++ptr) {
         const char c = tolower(*ptr);
