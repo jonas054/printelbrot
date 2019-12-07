@@ -141,7 +141,7 @@ int main() {
           break;
         case 'p':
         case 'm':
-          max = (c == 'p') ? max * 5 / 4 : max * 4 / 5;
+          max = (c == 'p') ? max * 4 / 3 : max * 3 / 4;
           break;
         }
       }
