@@ -13,10 +13,10 @@ exit
 int window_height = 0;
 int window_width = 0;
 int** result;
-double size = 1.1;
-double y_offset = 0.3;
-double x_offset = 1.189;
-int max = 200;
+double size = 4.4;
+double y_offset = 0.1080729;
+double x_offset = -0.6386042;
+int max = 60;
 
 const char* COLORS[] = {
   "\e[44m \e[0m",       /* blue */
@@ -66,9 +66,9 @@ double coordinate(double size, double scale, int pos, int full, double offset) {
 void* executor(void* ptr) {
   long index = (long) ptr;
   for (int row = 0; row < window_height; ++row) {
-    double y = coordinate(size, 2.4, row, window_height, y_offset);
+    double y = coordinate(size, 0.6, row, window_height, y_offset);
     for (int col = index; col < window_width; col += NR_OF_THREADS) {
-      double x = coordinate(size, 3.0, col, window_width, -x_offset);
+      double x = coordinate(size, 1.0, col, window_width, -x_offset);
       result[row][col] = (iterations(x, y, max) - 1) * NR_OF_COLORS / max;
     }
   }
@@ -140,11 +140,11 @@ int main(int argc, char** argv) {
         switch (c) {
         case 'u':
         case 'd':
-          y_offset += (c == 'u') ? size : -size;
+          y_offset += (c == 'u') ? size/3 : -size/3;
           break;
         case 'l':
         case 'r':
-          x_offset += (c == 'l') ? -size : size;
+          x_offset += (c == 'l') ? -size/3 : size/3;
           break;
         case 'i':
         case 'o':
@@ -152,7 +152,7 @@ int main(int argc, char** argv) {
           break;
         case 'p':
         case 'm':
-          max = (c == 'p') ? max * 4 / 3 : max * 3 / 4;
+          max = (c == 'p') ? max * 6 / 5 : max * 5 / 6;
           break;
         }
       }

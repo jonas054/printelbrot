@@ -40,7 +40,7 @@ Note that case is not important, and that multiple commands can be entered at a
 time. For example
 
 ```
-X:-1.189000e+00 Y:3.000000e-01 S:4.296875e-03 M:200 (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ilo
+X:-0.745332 Y:0.105208 S:3.356934e-05 M:250 (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ilo
 ```
 
 Changing the resolution depends on which terminal program is used, but it will
