@@ -68,7 +68,7 @@ void* executor(void* ptr) {
   for (int row = 0; row < window_height; ++row) {
     double y = coordinate(size, 2.4, row, window_height, y_offset);
     for (int col = index; col < window_width; col += NR_OF_THREADS) {
-      double x = coordinate(size, 3.0, col, window_width, x_offset);
+      double x = coordinate(size, 3.0, col, window_width, -x_offset);
       result[row][col] = (iterations(x, y, max) - 1) * NR_OF_COLORS / max;
     }
   }
@@ -133,7 +133,7 @@ int main() {
           break;
         case 'l':
         case 'r':
-          x_offset += (c == 'l') ? size : -size;
+          x_offset += (c == 'l') ? -size : size;
           break;
         case 'i':
         case 'o':
