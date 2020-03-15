@@ -37,7 +37,7 @@ const int NR_OF_THREADS = 7;
 // The central algorithm. Calculate zₙ+₁ = zₙ² + c until zₙ starts to grow
 // exponentially, which is when |zₙ| >= 2. Return the number of iterations
 // until we reach that point, or max if we break early.
-long iterations(double x, double y, int max) {
+long iterations(double x, double y) {
   int count = 0;
   // The real and imaginary parts of z: zr and zi. Calulating the squares zr2
   // and zi2 one time per loop is both an optimization and a convenience.
@@ -69,14 +69,14 @@ void* executor(void* ptr) {
     double y = coordinate(size, 0.6, row, window_height, y_offset);
     for (int col = index; col < window_width; col += NR_OF_THREADS) {
       double x = coordinate(size, 1.0, col, window_width, -x_offset);
-      result[row][col] = (iterations(x, y, max) - 1) * NR_OF_COLORS / max;
+      result[row][col] = (iterations(x, y) - 1) * NR_OF_COLORS / max;
     }
   }
   return NULL;
 }
 
 // Do the calulations for the entire picture in threads. Then print the result.
-void draw(double size, double x_offset, double y_offset, int max) {
+void draw(double x_offset, double y_offset) {
   pthread_t threads[NR_OF_THREADS];
   for (long t = 0; t < NR_OF_THREADS; ++t) {
     if (pthread_create(&threads[t], NULL, executor, (void*) t)) {
@@ -129,7 +129,7 @@ int main(int argc, char** argv) {
 
   while (1) {
     set_window_size();
-    draw(size, x_offset, y_offset, max);
+    draw(x_offset, y_offset);
     char line[1024];
 
     printf("X:%e Y:%e S:%e M:%d (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
