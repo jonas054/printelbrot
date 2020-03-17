@@ -179,7 +179,7 @@ void draw() {
     const char* previous = 0;
     for (int col = 0; col < window_width; ++col) {
       const char* current = COLORS[result[row][col]];
-      printf(current == previous ? " " : current);
+      printf("%s", current == previous ? " " : current);
       previous = current;
     }
     printf("\e[0m\n");
