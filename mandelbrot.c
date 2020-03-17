@@ -220,13 +220,18 @@ int main(int argc, char** argv) {
   }
 
   while (1) {
+    char line[1024];
+    char legend[200];
+
     set_window_size();
     calculate();
     draw();
-    char line[1024];
 
-    printf("X:%e Y:%e S:%e M:%d (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
-           x_offset, y_offset, size, max);
+    sprintf(legend, "X:%e Y:%e S:%e M:%d [%dx%d]", x_offset, y_offset, size,
+            max, window_width, window_height);
+    printf("\e];%s\007", legend);
+    printf("%s (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
+           legend);
     if (fgets(line, sizeof(line), stdin)) {
       for (const char* ptr = &line[0]; *ptr; ++ptr) {
         char c = tolower(*ptr);
