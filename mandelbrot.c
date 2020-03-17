@@ -226,7 +226,7 @@ int main(int argc, char** argv) {
            x_offset, y_offset, size, max);
     if (fgets(line, sizeof(line), stdin)) {
       for (const char* ptr = &line[0]; *ptr; ++ptr) {
-        const char c = tolower(*ptr);
+        char c = tolower(*ptr);
         switch (c) {
         case 'u':
         case 'd':
@@ -239,7 +239,8 @@ int main(int argc, char** argv) {
         case 'i':
         case 'o':
           size *= (c == 'i') ? 0.5 : 2;
-          break;
+          c = (c == 'i') ? 'p' : 'm';
+          // Fall through
         case 'p':
         case 'm':
           max = (c == 'p') ? max * 6 / 5 : max * 5 / 6;
