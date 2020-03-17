@@ -170,6 +170,7 @@ void draw(double x_offset, double y_offset) {
       return;
     }
   }
+  printf("\033[0;0H"); // Set cursor at top left.
   for (int row = 0; row < window_height; ++row) {
     for (int col = 0; col < window_width; ++col)
       printf("%s", COLORS[result[row][col]]);
