@@ -137,7 +137,7 @@ long iterations(double x, double y) {
 // verically, into a floating point number, which is the real or imaginary
 // number the position represents. The scale factor is to compensate for the
 // non-square-ness of the pixels.
-double coordinate(double size, double scale, int pos, int full, double offset) {
+double coordinate(double scale, int pos, int full, double offset) {
   return size * scale * (pos - full / 2.0) / full - offset;
 }
 
@@ -146,9 +146,9 @@ double coordinate(double size, double scale, int pos, int full, double offset) {
 void* executor(void* ptr) {
   long index = (long) ptr;
   for (int row = 0; row < window_height; ++row) {
-    double y = coordinate(size, 0.6, row, window_height, y_offset);
+    double y = coordinate(0.6, row, window_height, y_offset);
     for (int col = index; col < window_width; col += NR_OF_THREADS) {
-      double x = coordinate(size, 1.0, col, window_width, -x_offset);
+      double x = coordinate(1.0, col, window_width, -x_offset);
       result[row][col] = (iterations(x, y) - 1) * NR_OF_COLORS / max;
     }
   }
@@ -156,7 +156,7 @@ void* executor(void* ptr) {
 }
 
 // Do the calulations for the entire picture in threads. Then print the result.
-void draw(double x_offset, double y_offset) {
+void draw() {
   pthread_t threads[NR_OF_THREADS];
   for (long t = 0; t < NR_OF_THREADS; ++t) {
     if (pthread_create(&threads[t], NULL, executor, (void*) t)) {
@@ -214,7 +214,7 @@ int main(int argc, char** argv) {
 
   while (1) {
     set_window_size();
-    draw(x_offset, y_offset);
+    draw();
     char line[1024];
 
     printf("X:%e Y:%e S:%e M:%d (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
