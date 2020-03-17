@@ -155,8 +155,8 @@ void* executor(void* ptr) {
   return NULL;
 }
 
-// Do the calulations for the entire picture in threads. Then print the result.
-void draw() {
+// Do the calulations for the entire picture in threads.
+void calculate() {
   pthread_t threads[NR_OF_THREADS];
   for (long t = 0; t < NR_OF_THREADS; ++t) {
     if (pthread_create(&threads[t], NULL, executor, (void*) t)) {
@@ -170,6 +170,10 @@ void draw() {
       return;
     }
   }
+}
+
+// Print the result.
+void draw() {
   printf("\033[0;0H"); // Set cursor at top left.
   for (int row = 0; row < window_height; ++row) {
     const char* previous = 0;
@@ -214,6 +218,7 @@ int main(int argc, char** argv) {
 
   while (1) {
     set_window_size();
+    calculate();
     draw();
     char line[1024];
 
