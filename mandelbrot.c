@@ -3,6 +3,9 @@ gcc -pthread -O2 -o mandelbrot mandelbrot.c && ./mandelbrot "$@"
 exit
 #endif
 
+// Good spots:
+// X:-2.349932e-01 Y:8.281560e-01 S:2.622605e-07 M:4644
+
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
