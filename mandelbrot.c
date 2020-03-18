@@ -251,7 +251,7 @@ int main(int argc, char** argv) {
           // Fall through
         case 'p':
         case 'm':
-          max = (c == 'p') ? max * 6 / 5 : max * 5 / 6;
+          max = (c == 'p') ? max * 5 / 4 : max * 4 / 5;
           break;
         }
       }
