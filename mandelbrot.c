@@ -227,7 +227,7 @@ int main(int argc, char** argv) {
     calculate();
     draw();
 
-    sprintf(legend, "X:%e Y:%e S:%e M:%d [%dx%d]", x_offset, y_offset, size,
+    sprintf(legend, "X:%f Y:%f S:%e M:%d [%dx%d]", x_offset, y_offset, size,
             max, window_width, window_height);
     printf("\e];%s\007", legend);
     printf("%s (U)p,(D)own,(L)eft,(R)ight,(I)n,(O)ut,(P)lus,(M)inus > ",
