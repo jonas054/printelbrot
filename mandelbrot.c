@@ -9,6 +9,7 @@ exit
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <pthread.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
@@ -21,97 +22,97 @@ double y_offset = 0.1080729;
 double x_offset = -0.6386042;
 int max = 60;
 
-const char* COLORS[] = {
-  "\e[48;5;18m ",   // midnightblue,
-  "\e[48;5;19m ",   // darkblue,
-  "\e[48;5;20m ",   // mediumblue,
-  "\e[48;5;28m ",   // darkgreen,
-  "\e[48;5;34m ",   // forestgreen,
-  "\e[48;5;37m ",   // darkcyan,
-  "\e[48;5;39m ",   // dodgerblue,
-  "\e[48;5;43m ",   // lightseagreen,
-  "\e[48;5;44m ",   // darkturquoise,
-  "\e[48;5;45m ",   // deepskyblue,
-  "\e[48;5;46m ",   // lime,
-  "\e[48;5;48m ",   // springgreen,
-  "\e[48;5;49m ",   // mediumspringgreen,
-  "\e[48;5;51m ",   // aqua,
-  "\e[48;5;55m ",   // indigo,
-  "\e[48;5;59m ",   // darkslategray,
-  "\e[48;5;61m ",   // darkslateblue,
-  "\e[48;5;65m ",   // darkolivegreen,
-  "\e[48;5;69m ",   // royalblue,
-  "\e[48;5;72m ",   // seagreen,
-  "\e[48;5;74m ",   // steelblue,
-  "\e[48;5;77m ",   // limegreen,
-  "\e[48;5;78m ",   // mediumseagreen,
-  "\e[48;5;80m ",   // mediumturquoise,
-  "\e[48;5;86m ",   // turquoise,
-  "\e[48;5;88m ",   // webmaroon,
-  "\e[48;5;90m ",   // webpurple,
-  "\e[48;5;97m ",   // rebeccapurple,
-  "\e[48;5;102m ",  // dimgray,
-  "\e[48;5;104m ",  // slateblue,
-  "\e[48;5;105m ",  // mediumslateblue,
-  "\e[48;5;106m ",  // olivedrab,
-  "\e[48;5;109m ",  // cadetblue,
-  "\e[48;5;111m ",  // cornflower,
-  "\e[48;5;115m ",  // mediumaquamarine,
-  "\e[48;5;118m ",  // lawngreen,
-  "\e[48;5;122m ",  // aquamarine,
-  "\e[48;5;124m ",  // brown,
-  "\e[48;5;127m ",  // darkmagenta,
-  "\e[48;5;128m ",  // darkviolet,
-  "\e[48;5;129m ",  // purple,
-  "\e[48;5;130m ",  // saddlebrown,
-  "\e[48;5;131m ",  // sienna,
-  "\e[48;5;134m ",  // darkorchid,
-  "\e[48;5;135m ",  // blueviolet,
-  "\e[48;5;141m ",  // mediumpurple,
-  "\e[48;5;142m ",  // olive,
-  "\e[48;5;145m ",  // darkgray,
-  "\e[48;5;149m ",  // yellowgreen,
-  "\e[48;5;151m ",  // darkseagreen,
-  "\e[48;5;153m ",  // skyblue,
-  "\e[48;5;157m ",  // lightgreen,
-  "\e[48;5;157m ",  // palegreen,
-  "\e[48;5;160m ",  // firebrick,
-  "\e[48;5;163m ",  // mediumvioletred,
-  "\e[48;5;168m ",  // maroon,
-  "\e[48;5;170m ",  // mediumorchid,
-  "\e[48;5;172m ",  // chocolate,
-  "\e[48;5;174m ",  // indianred,
-  "\e[48;5;178m ",  // darkgoldenrod,
-  "\e[48;5;179m ",  // peru,
-  "\e[48;5;181m ",  // rosybrown,
-  "\e[48;5;186m ",  // darkkhaki,
-  "\e[48;5;187m ",  // tan,
-  "\e[48;5;188m ",  // gray,
-  "\e[48;5;189m ",  // lightsteelblue,
-  "\e[48;5;191m ",  // greenyellow,
-  "\e[48;5;195m ",  // lightblue,
-  "\e[48;5;197m ",  // crimson,
-  "\e[48;5;199m ",  // deeppink,
-  "\e[48;5;201m ",  // fuchsia,
-  "\e[48;5;202m ",  // orangered,
-  "\e[48;5;209m ",  // coral,
-  "\e[48;5;211m ",  // palevioletred,
-  "\e[48;5;212m ",  // hotpink,
-  "\e[48;5;213m ",  // orchid,
-  "\e[48;5;214m ",  // darkorange,
-  "\e[48;5;216m ",  // darksalmon,
-  "\e[48;5;217m ",  // lightcoral,
-  "\e[48;5;219m ",  // violet,
-  "\e[48;5;223m ",  // burlywood,
-  "\e[48;5;224m ",  // lightpink,
-  "\e[48;5;225m ",  // thistle,
-  "\e[48;5;226m ",  // gold,
-  "\e[48;5;229m ",  // khaki,
-  "\e[48;5;230m ",  // bisque,
-  "\e[48;5;231m ",  // aliceblue,
-  "\e[40m ",        // black,
-  "\e[40m ",        // black,
-  "\e[40m "         // black
+const int COLORS[] = {
+  18,   // midnightblue,
+  19,   // darkblue,
+  20,   // mediumblue,
+  28,   // darkgreen,
+  34,   // forestgreen,
+  37,   // darkcyan,
+  39,   // dodgerblue,
+  43,   // lightseagreen,
+  44,   // darkturquoise,
+  45,   // deepskyblue,
+  46,   // lime,
+  48,   // springgreen,
+  49,   // mediumspringgreen,
+  51,   // aqua,
+  55,   // indigo,
+  59,   // darkslategray,
+  61,   // darkslateblue,
+  65,   // darkolivegreen,
+  69,   // royalblue,
+  72,   // seagreen,
+  74,   // steelblue,
+  77,   // limegreen,
+  78,   // mediumseagreen,
+  80,   // mediumturquoise,
+  86,   // turquoise,
+  88,   // webmaroon,
+  90,   // webpurple,
+  97,   // rebeccapurple,
+  102,  // dimgray,
+  104,  // slateblue,
+  105,  // mediumslateblue,
+  106,  // olivedrab,
+  109,  // cadetblue,
+  111,  // cornflower,
+  115,  // mediumaquamarine,
+  118,  // lawngreen,
+  122,  // aquamarine,
+  124,  // brown,
+  127,  // darkmagenta,
+  128,  // darkviolet,
+  129,  // purple,
+  130,  // saddlebrown,
+  131,  // sienna,
+  134,  // darkorchid,
+  135,  // blueviolet,
+  141,  // mediumpurple,
+  142,  // olive,
+  145,  // darkgray,
+  149,  // yellowgreen,
+  151,  // darkseagreen,
+  153,  // skyblue,
+  157,  // lightgreen,
+  157,  // palegreen,
+  160,  // firebrick,
+  163,  // mediumvioletred,
+  168,  // maroon,
+  170,  // mediumorchid,
+  172,  // chocolate,
+  174,  // indianred,
+  178,  // darkgoldenrod,
+  179,  // peru,
+  181,  // rosybrown,
+  186,  // darkkhaki,
+  187,  // tan,
+  188,  // gray,
+  189,  // lightsteelblue,
+  191,  // greenyellow,
+  195,  // lightblue,
+  197,  // crimson,
+  199,  // deeppink,
+  201,  // fuchsia,
+  202,  // orangered,
+  209,  // coral,
+  211,  // palevioletred,
+  212,  // hotpink,
+  213,  // orchid,
+  214,  // darkorange,
+  216,  // darksalmon,
+  217,  // lightcoral,
+  219,  // violet,
+  223,  // burlywood,
+  224,  // lightpink,
+  225,  // thistle,
+  226,  // gold,
+  229,  // khaki,
+  230,  // bisque,
+  231,  // aliceblue,
+  0,    // black,
+  0,    // black,
+  0     // black
 };
 
 const int NR_OF_COLORS = sizeof(COLORS) / sizeof(COLORS[0]);
@@ -178,12 +179,18 @@ void calculate() {
 // Print the result.
 void draw() {
   printf("\033[0;0H"); // Set cursor at top left.
-  for (int row = 0; row < window_height; ++row) {
-    const char* previous = 0;
+  for (int row = 0; row < window_height; row += 2) {
+    int previous_fg = -1, previous_bg = -1;
     for (int col = 0; col < window_width; ++col) {
-      const char* current = COLORS[result[row][col]];
-      printf("%s", current == previous ? " " : current);
-      previous = current;
+      int fg = COLORS[result[row][col]];
+      int bg = COLORS[result[row + 1][col]];
+      if (previous_bg == bg && previous_fg == fg)
+        printf("▀");
+      else {
+        printf("\e[38;5;%dm\e[48;5;%dm▀", fg, bg);
+        previous_fg = fg;
+        previous_bg = bg;
+      }
     }
     printf("\e[0m\n");
   }
@@ -200,7 +207,7 @@ void set_window_size() {
   if (window_height > 0)
     free(result);
 
-  window_height = w.ws_row - 1;
+  window_height = 2 * (w.ws_row - 1);
   window_width = w.ws_col;
 
   result = malloc(window_height * sizeof(int*));
