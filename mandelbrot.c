@@ -182,12 +182,12 @@ void draw() {
   for (int row = 0; row < window_height; row += 2) {
     int previous_fg = -1, previous_bg = -1;
     for (int col = 0; col < window_width; ++col) {
-      int fg = COLORS[result[row][col]];
-      int bg = COLORS[result[row + 1][col]];
+      int bg = COLORS[result[row][col]];
+      int fg = COLORS[result[row + 1][col]];
       if (previous_bg == bg && previous_fg == fg)
-        printf("▀");
+        printf("▄");
       else {
-        printf("\e[38;5;%dm\e[48;5;%dm▀", fg, bg);
+        printf("\e[38;5;%dm\e[48;5;%dm▄", fg, bg);
         previous_fg = fg;
         previous_bg = bg;
       }
