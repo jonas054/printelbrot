@@ -9,7 +9,7 @@ SCALE = 1
 # Mandelbrot set viewer
 class Mandelbrot < Gosu::Window
   def initialize
-    super((1920.0 / SCALE).round, (1080.0 / SCALE).round, fullscreen: true)
+    super((1500.0 / SCALE).round, (800.0 / SCALE).round, fullscreen: true)
     @x_offset = -0.649985 # -0.2349932
     @y_offset = 0.476856 # 0.8281560
     @max = 100
@@ -34,7 +34,8 @@ class Mandelbrot < Gosu::Window
     @hue_offset += 1
     puts "X:#{@x_offset} Y:#{@y_offset} S:#{@size} M:#{@max}"
     (0...height).each do |y|
-      (0...width).each do |x|
+      x = 0
+      while x < width
         value = @result[y][x]
         color = if value >= @max - 1
                   Gosu::Color::BLACK
@@ -42,7 +43,10 @@ class Mandelbrot < Gosu::Window
                   Gosu::Color.from_hsv((@hue_offset + 360 * value / @max) % 360,
                                        1.0, 0.5 - 1.0 * value / @max / 2)
                 end
-        draw_rect(x, y, 1, 1, color)
+        line_length = 0
+        line_length += 1 while x + line_length < width && @result[y][x + line_length] == @result[y][x]
+        draw_rect(x, y, line_length, 1, color)
+        x += line_length
       end
     end
     p draw: Time.now - start
