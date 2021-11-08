@@ -89,7 +89,7 @@ class Mandelbrot < Gosu::Window
     if value >= @max
       Gosu::Color::BLACK
     else
-      Gosu::Color.from_hsv((@hue_offset + 360 * value / @max) % 360,
+      Gosu::Color.from_hsv((@hue_offset + 3 * 360 * value / @max) % 360,
                            1.0, 0.5 - 1.0 * value / @max / 2)
     end
   end
