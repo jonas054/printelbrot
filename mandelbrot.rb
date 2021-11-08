@@ -59,13 +59,13 @@ class Mandelbrot < Gosu::Window
 
   def wait_for_calculation
     @threads.each(&:join)
-    @result_to_draw = @last_result = @result
+    @result_to_draw = @last_result = @current_result
     @size *= ZOOM_FACTOR
     @max *= 1.2
   end
 
   def start_new_calculation
-    @result = Array.new(height) { [nil] * width }
+    @current_result = Array.new(height) { [nil] * width }
     @threads = NR_OF_THREADS.times.map do |ix|
       Thread.new(ix) { |i| executor(i, @size, @x_offset, @y_offset, @max) }
     end
@@ -80,14 +80,13 @@ class Mandelbrot < Gosu::Window
     @result_to_draw = Array.new(height) { [nil] * width }
     (0...height).each do |y|
       (0...width).each do |x|
-        @result_to_draw[y][x] =
-          @last_result[y_offset + y * zoom][x_offset + x * zoom]
+        @result_to_draw[y][x] = @last_result[y_offset + y * zoom][x_offset + x * zoom]
       end
     end
   end
 
   def color_of(value)
-    if value >= @max - 1
+    if value >= @max
       Gosu::Color::BLACK
     else
       Gosu::Color.from_hsv((@hue_offset + 360 * value / @max) % 360,
@@ -101,7 +100,7 @@ class Mandelbrot < Gosu::Window
       col = index
       while col < width
         x = coordinate(1.0, col, width, -x_offset, size)
-        @result[row][col] = iterations(x, y, max) - 1
+        @current_result[row][col] = iterations(x, y, max)
         col += NR_OF_THREADS
       end
     end
