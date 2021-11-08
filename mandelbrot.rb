@@ -79,9 +79,7 @@ class Mandelbrot < Gosu::Window
     x_offset = width * margin
     @result_to_draw = Array.new(height) { [nil] * width }
     (0...height).each do |y|
-      (0...width).each do |x|
-        @result_to_draw[y][x] = @last_result[y_offset + y * zoom][x_offset + x * zoom]
-      end
+      copy_zoomed(@result_to_draw[y], @last_result[y_offset + y * zoom], x_offset, zoom)
     end
   end
 
@@ -122,6 +120,19 @@ class Mandelbrot < Gosu::Window
           zi2 = zi * zi;
         }
         return count;
+      }
+    CODE
+
+    builder.c <<~CODE
+      void copy_zoomed(VALUE dest, VALUE src, VALUE x_offset, VALUE zoom) {
+        int s_len = RARRAY(src)->as.heap.len;
+        int d_len = RARRAY(dest)->as.heap.len;
+        VALUE* s_arr = RARRAY(src)->as.heap.ptr;
+        VALUE* d_arr = RARRAY(dest)->as.heap.ptr;
+        for (int i = 0; i < d_len; i++) {
+          int x = i * NUM2DBL(zoom);
+          d_arr[i] = s_arr[NUM2INT(x_offset) + x];
+        }
       }
     CODE
   end
