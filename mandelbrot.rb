@@ -13,8 +13,8 @@ ZOOM_FACTOR = 0.6
 class Mandelbrot < Gosu::Window
   def initialize
     super((1920.0 / SCALE).round, (1080.0 / SCALE).round, fullscreen: true)
-    @x_offset = -0.649985 # -0.2349932
-    @y_offset = 0.476856 # 0.8281560
+    @x_offset = -0.1630677793 # -0.2349932
+    @y_offset = 1.0261700759 # 0.8281560
     @max = 100
     @size = 8
     @updates_left_before_calc = 0
@@ -128,4 +128,3 @@ class Mandelbrot < Gosu::Window
 end
 
 Mandelbrot.new.show
-# p m.iterations(0.1080729, -0.6386042, 100)
