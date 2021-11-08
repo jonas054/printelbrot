@@ -28,6 +28,7 @@ class Mandelbrot < Gosu::Window
       start_new_calculation
       @updates_left_before_calc = UPDATES_BETWEEN_CALCULATIONS
       puts Rainbow("calculate: #{Time.now - start}").green
+      puts "X:#{@x_offset} Y:#{@y_offset} S:#{@size} M:#{@max.to_i}"
     else
       @updates_left_before_calc -= 1
       zoom_in if @last_result
@@ -41,7 +42,6 @@ class Mandelbrot < Gosu::Window
     start = Time.now
     @hue_offset += 1
 
-    puts "X:#{@x_offset} Y:#{@y_offset} S:#{@size} M:#{@max.to_i}"
     @result_to_draw.each_with_index do |row, y|
       x = 0
       while x < width
