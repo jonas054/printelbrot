@@ -108,34 +108,33 @@ class Mandelbrot < Gosu::Window
     size * scale * (pos - full / 2.0) / full - offset
   end
 
-  inline do |builder|
-    builder.c <<~CODE
-      long iterations(double x, double y, int max) {
-        int count = 0;
-        double zr = 0, zi = 0, zr2 = 0, zi2 = 0;
-        for (; zr2 + zi2 < 4.0 && count < max; ++count) {
-          zi = 2 * zr * zi + y;
-          zr = zr2 - zi2 + x;
-          zr2 = zr * zr;
-          zi2 = zi * zi;
-        }
-        return count;
-      }
-    CODE
-
-    builder.c <<~CODE
-      void copy_zoomed(VALUE dest, VALUE src, VALUE x_offset, VALUE zoom) {
-        int s_len = RARRAY(src)->as.heap.len;
-        int d_len = RARRAY(dest)->as.heap.len;
-        VALUE* s_arr = RARRAY(src)->as.heap.ptr;
-        VALUE* d_arr = RARRAY(dest)->as.heap.ptr;
-        for (int i = 0; i < d_len; i++) {
-          int x = i * NUM2DBL(zoom);
-          d_arr[i] = s_arr[NUM2INT(x_offset) + x];
-        }
-      }
-    CODE
-  end
+  inline { |builder| DATA.read.split('//---').each { |code| builder.c(code) } }
 end
 
 Mandelbrot.new.show
+
+__END__
+
+long iterations(double x, double y, int max) {
+  int count = 0;
+  double zr = 0, zi = 0, zr2 = 0, zi2 = 0;
+  for (; zr2 + zi2 < 4.0 && count < max; ++count) {
+    zi = 2 * zr * zi + y;
+    zr = zr2 - zi2 + x;
+    zr2 = zr * zr;
+    zi2 = zi * zi;
+  }
+  return count;
+}
+
+//---
+
+void copy_zoomed(VALUE dest, VALUE src, VALUE x_offset, VALUE zoom) {
+  int d_len = RARRAY(dest)->as.heap.len;
+  const VALUE* s_arr = RARRAY(src)->as.heap.ptr;
+  VALUE* d_arr = RARRAY(dest)->as.heap.ptr;
+  for (int i = 0; i < d_len; i++) {
+    int x = i * NUM2DBL(zoom);
+    d_arr[i] = s_arr[NUM2INT(x_offset) + x];
+  }
+}
