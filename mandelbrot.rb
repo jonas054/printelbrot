@@ -41,21 +41,22 @@ class Mandelbrot < Gosu::Window
 
     start = Time.now
     @hue_offset += 1
-
-    @result_to_draw.each_with_index do |row, y|
-      x = 0
-      while x < width
-        value = row[x]
-        x1 = x + 1
-        x1 += 1 while x1 < width && row[x1] == value
-        draw_rect(x, y, x1 - x, 1, color_of(value))
-        x = x1
-      end
-    end
+    @result_to_draw.each_with_index { |row, y| draw_row(row, y) }
     puts Rainbow("draw: #{Time.now - start}").cyan
   end
 
   private
+
+  def draw_row(row, y)
+    x = 0
+    while x < width
+      value = row[x]
+      x1 = x + 1
+      x1 += 1 while x1 < width && row[x1] == value
+      draw_rect(x, y, x1 - x, 1, color_of(value))
+      x = x1
+    end
+  end
 
   def wait_for_calculation
     @threads.each(&:join)
